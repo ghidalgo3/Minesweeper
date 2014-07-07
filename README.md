@@ -1,7 +1,7 @@
 Minesweeper
 ===========
 
-I made this to learn how to use JavaFX. Took me the better part of a day to make. The cool thing is that as I kept working on it I only had to keep changing MSController to see gameplay changes. I don't know if that says separation of responsibility or monolithic classes, but I'm going to go with the former.
+I made this to learn how to use JavaFX. Click to open a tile and right click to flag a tile. Supports clicking on opened tiles to open adjacent tiles if all the flags are present. Also supports arbitrary grid sizes and bomb counts but suffers a considerable performance hit past ~50x50 grid size. My guess is the tile opening algorithm.
 
 To run it, download and compile all the java files in src/sample/ and then execute Main.
 
