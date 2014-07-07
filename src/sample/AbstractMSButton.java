@@ -5,7 +5,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Labeled;
 
 /**
- * Created by Gustavo on 7/7/14.
+ * Abstract class with most of the functionality of a minesweeper button.
+ * Concrete subclasses must simply define the styles of the button based on the contents.
+ * 
+ * @author Gustavo Hidalgo
  */
 public abstract class AbstractMSButton implements ChangeListener<MSController.Tile> {
 
@@ -25,9 +28,6 @@ public abstract class AbstractMSButton implements ChangeListener<MSController.Ti
             setFlaggedStyle();
         } else {
             setClosedStyle();
-//            this.setText("");
-//            this.setStyle("-fx-background-color: deepskyblue;" +
-//                    "      -fx-border-color: darkblue");
         }
     }
 
@@ -56,6 +56,5 @@ public abstract class AbstractMSButton implements ChangeListener<MSController.Ti
     protected abstract void setFlaggedStyle();
     protected abstract void setOpenStyle();
     protected abstract void setBombStyle();
-    //protected abstract void setOnMouseClicked(MouseEvent event);
-
+    
 }
