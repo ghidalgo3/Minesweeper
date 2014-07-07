@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
 /**
@@ -16,15 +15,6 @@ public class MSButton extends AbstractMSButton{
         button = new Button();
         button.setMaxHeight(Double.MAX_VALUE);
         button.setMaxWidth(Double.MAX_VALUE);
-        button.setOnMouseClicked((mouse) -> { //LAMBDAS <3
-                    if (mouse.getButton() == MouseButton.PRIMARY) {
-                        controller.choose(observed.getRow(), observed.getCol());
-                    } else if (mouse.getButton() == MouseButton.SECONDARY) {
-                        controller.flag(observed.getRow(), observed.getCol());
-                    }
-                }
-        );
-        setClosedStyle();
     }
 
     @Override

@@ -3,6 +3,7 @@ package sample;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Labeled;
+import javafx.scene.input.MouseButton;
 
 /**
  * Abstract class with most of the functionality of a minesweeper button.
@@ -21,6 +22,15 @@ public abstract class AbstractMSButton implements ChangeListener<MSController.Ti
         this.controller = controller;
         this.observed = observed;
         observed.addListener(this);
+        button.setOnMouseClicked((mouse) -> { //LAMBDAS <3
+                    if (mouse.getButton() == MouseButton.PRIMARY) {
+                        controller.choose(observed.getRow(), observed.getCol());
+                    } else if (mouse.getButton() == MouseButton.SECONDARY) {
+                        controller.flag(observed.getRow(), observed.getCol());
+                    }
+                }
+        );
+        setClosedStyle();
     }
 
     public void flag() {
