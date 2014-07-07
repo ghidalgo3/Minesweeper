@@ -214,9 +214,9 @@ public class MSController {
             selection.open();
             tilesOpened++;
             if(!hasNeighboringBombs(row, col)) {
-                recurChoose(row - 1, col - 1); recurChoose(row - 1, col); recurChoose(row - 1, col + 1);
-                recurChoose(row,     col - 1);                            recurChoose(row,     col + 1);
-                recurChoose(row + 1, col - 1); recurChoose(row + 1, col); recurChoose(row + 1, col + 1);
+                neighbors(row,col).
+                        stream().
+                        forEach(t -> recurChoose(t.row, t.col));
             }
         }
     }
