@@ -3,7 +3,8 @@ package sample;
 import javafx.scene.layout.GridPane;
 
 /**
- * Created by Gustavo on 7/6/14.
+ * UI Grid of MSButtons.
+ * @author Gustavo Hidalgo
  */
 public class MSGridPane extends GridPane {
 

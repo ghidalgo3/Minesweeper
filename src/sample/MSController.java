@@ -29,6 +29,7 @@ public class MSController {
 
     /**
      * Initializes a minesweeper game with row, columns and a number of bombs.
+     *
      * @param rows Rows
      * @param columns Columns
      * @param bombs Bombs
@@ -49,6 +50,7 @@ public class MSController {
 
     /**
      * Helper method for accessing tiles.
+     *
      * @param row Tile row
      * @param col Tile col
      * @return Tile at a coordinate.
@@ -59,6 +61,7 @@ public class MSController {
 
     /**
      * Game is won when this evaluates to true.
+     *
      * ((bombsFlagged == bombs) &&  (tilesFlagged == bombs)) && (tilesOpened == ((rows*columns)-bombs));
      * All of the Grid has been uncovered properly.
      * @return True if game is won.
@@ -69,6 +72,7 @@ public class MSController {
 
     /**
      * Player loses if he opens a Tile with a bomb.
+     *
      * @return True if he opened a Tile with a bomb.
      */
     public boolean gameLost() {
@@ -77,6 +81,7 @@ public class MSController {
 
     /**
      * Counts the number of flagged tiles around a tile
+     *
      * @param row Tile row
      * @param col Tile col
      * @return Count of neighbor flagged tiles.
@@ -89,6 +94,11 @@ public class MSController {
 
     }
 
+    /**
+     * If the first click of the player is a bomb, move the bomb.
+     *
+     * @param selection Move the bomb in this tile to somewhere else.
+     */
     private void moveBomb(Tile selection) {
         selection.isBomb = false;
         Random r = new Random();
@@ -102,6 +112,7 @@ public class MSController {
             }
         }
     }
+
     /**
      * A tile is chosen when a player clicks on the grid. Could cause a loss.
      * @param row Tile row
@@ -253,6 +264,7 @@ public class MSController {
     /**
      * Helper method that creates an ArrayList of the surrounding tiles of a given tile.
      * Handles edges and corners.
+     *
      * @param row Tile row
      * @param col Tile col
      * @return ArrayList of neighboring tiles
@@ -278,11 +290,10 @@ public class MSController {
      * @return Number of bombs around this tile
      */
     private int countNeighboringBombs(int row, int col) {
-        int count = 0;
-        for(Tile t : neighbors(row, col)) {
-            count += t.isBomb() ? 1 : 0;
-        }
-        return count;
+        return (int) neighbors(row,col).
+                stream().
+                filter(Tile::isBomb).
+                count();
     }
 
     /**
@@ -296,6 +307,7 @@ public class MSController {
             }
         }
     }
+
     /**
      * Fills the grid with the correct amount of bombs
      */
@@ -309,8 +321,6 @@ public class MSController {
                     if (!tileGrid[row][col].isBomb() && (rand.nextFloat() < bombProb) && (bombsPlaced < bombs)) {
                         tileGrid[row][col].isBomb = true;
                         bombsPlaced++;
-                        //System.out.printf("(%d, %d) ", row, col);
-                        //System.out.println(bombsPlaced);
                     }
                 }
             }
@@ -324,7 +334,7 @@ public class MSController {
         for (int row = 0; row < tileGrid.length; row++) {
             for (int col = 0; col < tileGrid[row].length; col++) {
                 if(!tileGrid[row][col].isBomb()) {
-                    tileGrid[row][col].setBombNeighbors(countNeighboringBombs(row, col));
+                    tileGrid[row][col].setBombNeighbors( countNeighboringBombs(row, col) );
                 }
             }
         }

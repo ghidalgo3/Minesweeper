@@ -13,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Main class, terribly written actually.
+ */
 public class Main extends Application {
 
     int rows = 10;
@@ -59,9 +62,6 @@ public class Main extends Application {
     private void resetGame() {
         game = makeGame();
         gameView.setContent(game);
-        
-        //root.setPrefSize(game.getPrefWidth(), game.getPrefHeight());
-        //stage.sizeToScene();
     }
 
     private void edit() {
@@ -83,11 +83,11 @@ public class Main extends Application {
         Button editButton = new Button("Change");
         editButton.setMaxWidth(Double.MAX_VALUE);
         columnsField.setMaxWidth(60);
-        columnsField.promptTextProperty().setValue("columns");
+        columnsField.promptTextProperty().setValue("Columns");
         rowsField.setMaxWidth(60);
-        rowsField.promptTextProperty().setValue("rows");
+        rowsField.promptTextProperty().setValue("Rows");
         bombsField.setMaxWidth(60);
-        bombsField.promptTextProperty().setValue("bombs");
+        bombsField.promptTextProperty().setValue("Bombs");
         HBox group = new HBox(resetButton, editButton, columnsField, rowsField, bombsField);
         resetButton.setOnMouseClicked((m) -> resetGame());
         editButton.setOnMouseClicked((m) -> edit());
