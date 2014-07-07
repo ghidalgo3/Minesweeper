@@ -72,6 +72,7 @@ public class Main extends Application {
         } catch (NumberFormatException l) {
             rows = 10; cols = 10; bombs = 10;
         }
+        if(bombs >= rows * cols) bombs = (rows*cols);
         resetGame();
     }
 

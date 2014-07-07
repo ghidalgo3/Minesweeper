@@ -2,6 +2,7 @@ package sample;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
 import javafx.scene.input.MouseButton;
 
@@ -13,7 +14,7 @@ import javafx.scene.input.MouseButton;
  */
 public abstract class AbstractMSButton implements ChangeListener<MSController.Tile> {
 
-    protected Labeled button;
+    protected Labeled button = new Button();
 
     MSController.Tile observed;
     MSController controller;

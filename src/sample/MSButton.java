@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 /**
@@ -12,7 +11,6 @@ public class MSButton extends AbstractMSButton{
     
     public MSButton(MSController.Tile observed, MSController controller) {
         super(observed, controller);
-        button = new Button();
         button.setMaxHeight(Double.MAX_VALUE);
         button.setMaxWidth(Double.MAX_VALUE);
     }
