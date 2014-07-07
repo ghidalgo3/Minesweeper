@@ -8,11 +8,10 @@ import javafx.scene.layout.GridPane;
 public class MSGridPane extends GridPane {
 
     public MSGridPane(MSController game) {
-
         for(int row = 0; row < game.rows; row++) {
             for(int col = 0; col < game.columns; col++) {
-                MSButton button = new MSButton(game.tileAt(row,col), row, col, game);
-                this.add(button, row, col);
+                MSButton tile = new MSButton(game.tileAt(row,col), game);
+                this.add(tile.getButton(), row, col);
             }
         }
     }

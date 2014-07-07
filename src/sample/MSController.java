@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by Gustavo on 7/6/14.
+ * Represents a minesweeper controller for a minesweeper game.
+ *
+ * @author Gustavo Hidalgo
  */
 public class MSController {
 
@@ -80,13 +82,11 @@ public class MSController {
      * @return Count of neighbor flagged tiles.
      */
     private int flagsAround(int row, int col) {
-        int count = 0;
-        for(Tile n : neighbors(row,col)) {
-            if(n.isFlagged()) {
-                count++;
-            }
-        }
-        return count;
+        return (int) neighbors(row,col).
+                stream().
+                filter(Tile::isFlagged).
+                count();
+
     }
 
     private void moveBomb(Tile selection) {
@@ -108,7 +108,10 @@ public class MSController {
      * @param col Tile col
      */
     public void choose(int row, int col) {
-        if(gameLost) return;
+        if(gameLost) {
+            loseGame();
+            return;
+        }
         Tile selection = tileGrid[row][col];
         if(!selection.isFlagged() && selection.isBomb()) {
             if(tilesOpened == 0) {
@@ -119,7 +122,6 @@ public class MSController {
                 bombOpened = true; //lost the game
                 gameLost = true;
             }
-
         } else { //if you're opening a normal one
             if(!selection.isOpen()) {
                 recurChoose(row, col);
@@ -129,12 +131,14 @@ public class MSController {
 
         }
         //gameStatus.setValue("BF: "+bombsFlagged+" TO: "+tilesOpened+" TF: "+tilesFlagged);
-        if(gameLost()) {
-            gameStatus.setValue("You lost!");
-        }
         if(gameWon()) {
             gameStatus.setValue("You win!");
         }
+    }
+
+    private void loseGame() {
+        gameLost = true;
+        gameStatus.setValue("You lost!");
     }
 
     /**
@@ -148,6 +152,10 @@ public class MSController {
         if (flagsAround(row, col) == selection.getBombNeighbors()) { //tile open and clicked
             for(Tile n : neighbors(row, col)) {
                 if(!n.isFlagged() && !n.isOpen()) {
+                    if(n.isBomb()) {
+                        loseGame();
+                        return;
+                    }
                     recurChoose(n);
                 }
             }
@@ -200,15 +208,6 @@ public class MSController {
                 recurChoose(row + 1, col - 1); recurChoose(row + 1, col); recurChoose(row + 1, col + 1);
             }
         }
-    }
-
-    /**
-     * Helper method that delegates to the other neighbors(int, int)
-     * @param t tile
-     * @return ArrayList of neighboring tiles. Handles corners and edges.
-     */
-    private ArrayList<Tile> neighbors(Tile t) {
-        return neighbors(t.row, t.col);
     }
 
     /**
@@ -293,7 +292,7 @@ public class MSController {
         tileGrid = new Tile[rows][columns];
         for (int row = 0; row < tileGrid.length; row++) {
             for (int col = 0; col < tileGrid[row].length; col++) {
-                tileGrid[row][col] = new Tile(false, row, col);
+                tileGrid[row][col] = new Tile(row, col);
             }
         }
     }
@@ -348,11 +347,10 @@ public class MSController {
 
         /**
          * Creates a tile at a position and declares if bomb or not.
-         * @param isBomb
-         * @param row
-         * @param col
+         * @param row tile row
+         * @param col tile col
          */
-        public Tile(boolean isBomb, int row, int col) {
+        public Tile(int row, int col) {
             this.row = row;
             this.col = col;
         }
@@ -392,6 +390,14 @@ public class MSController {
                 isFlagged.setValue(!isFlagged.getValue());
                 changeListener.changed(this, null, this);
             }
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public int getCol() {
+            return col;
         }
 
         public boolean isBomb() {

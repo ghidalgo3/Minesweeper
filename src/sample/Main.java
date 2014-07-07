@@ -3,11 +3,12 @@ package sample;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -19,7 +20,6 @@ public class Main extends Application {
     int bombs = 10;
     Scene mainScene;
     MSGridPane game;
-    VBox layout = new VBox();
     TextField columnsField = new TextField();
     TextField rowsField = new TextField();
     TextField bombsField = new TextField();
@@ -27,16 +27,22 @@ public class Main extends Application {
     StringProperty bombsFlagged = new SimpleStringProperty("");
     Text status = new Text();
     Text bombsStatus = new Text();
+    ScrollPane gameView;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = makeGame();
+        game = makeGame();
+        VBox root = new VBox();
+        gameView = new ScrollPane(game);
+        VBox.setVgrow(gameView, Priority.ALWAYS);
+        //gameView.setMinSize(100,100);
         status.textProperty().bind(gameStatus);
         bombsStatus.textProperty().bind(bombsFlagged);
-        layout.getChildren().addAll(controlButtons(), statusBar(), root);
-        mainScene = new Scene(layout);
+        root.getChildren().addAll(controlButtons(), statusBar(), gameView);
+        mainScene = new Scene(root);
         primaryStage.setTitle("Minesweeper");
         primaryStage.setScene(mainScene);
+        root.setPrefSize(400,400);
         primaryStage.show();
     }
 
@@ -51,10 +57,11 @@ public class Main extends Application {
     }
 
     private void resetGame() {
-
-        layout.getChildren().remove(2);
         game = makeGame();
-        layout.getChildren().add(game);
+        gameView.setContent(game);
+        
+        //root.setPrefSize(game.getPrefWidth(), game.getPrefHeight());
+        //stage.sizeToScene();
     }
 
     private void edit() {
@@ -73,7 +80,7 @@ public class Main extends Application {
     private HBox controlButtons() {
         Button resetButton = new Button("Reset");
         resetButton.setMaxWidth(Double.MAX_VALUE);
-        Button editButton = new Button("Edit");
+        Button editButton = new Button("Change");
         editButton.setMaxWidth(Double.MAX_VALUE);
         columnsField.setMaxWidth(60);
         columnsField.promptTextProperty().setValue("columns");
