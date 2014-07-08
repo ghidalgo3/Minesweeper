@@ -2,8 +2,8 @@ package sample;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.input.MouseButton;
 
 /**
@@ -12,17 +12,19 @@ import javafx.scene.input.MouseButton;
  * 
  * @author Gustavo Hidalgo
  */
-public abstract class AbstractMSButton implements ChangeListener<MSController.Tile> {
+public abstract class Abstract2DMSButton implements ChangeListener<MSController.Tile> {
 
-    protected Labeled button = new Button();
+    protected Button button = new Button("  ");
 
     MSController.Tile observed;
     MSController controller;
 
-    public AbstractMSButton(MSController.Tile observed, MSController controller) {
+    public Abstract2DMSButton(MSController.Tile observed, MSController controller) {
         this.controller = controller;
         this.observed = observed;
         observed.addListener(this);
+        button.setOnMousePressed((mouse) -> setPressedStyle());
+        button.setOnMouseReleased((mouse) -> setOpenStyle());
         button.setOnMouseClicked((mouse) -> { //LAMBDAS <3
                     if (mouse.getButton() == MouseButton.PRIMARY) {
                         controller.choose(observed.getRow(), observed.getCol());
@@ -44,6 +46,7 @@ public abstract class AbstractMSButton implements ChangeListener<MSController.Ti
 
     public void open() {
         if(!observed.isBomb()) {
+            setPressedStyle();
             setOpenStyle();
         } else {
             setBombStyle();
@@ -59,7 +62,7 @@ public abstract class AbstractMSButton implements ChangeListener<MSController.Ti
         }
     }
 
-    public Labeled getButton() {
+    public Node getButton() {
         return button;
     }
 
@@ -67,5 +70,7 @@ public abstract class AbstractMSButton implements ChangeListener<MSController.Ti
     protected abstract void setFlaggedStyle();
     protected abstract void setOpenStyle();
     protected abstract void setBombStyle();
+    protected abstract void setPressedStyle();
+
     
 }

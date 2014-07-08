@@ -126,7 +126,6 @@ public class MSController {
         Tile selection = tileGrid[row][col];
         if(!selection.isFlagged() && selection.isBomb()) {
             if(tilesOpened == 0) {
-                System.out.println("Bomb moved");
                 moveBomb(selection);
             } else {
                 selection.open();
@@ -216,9 +215,11 @@ public class MSController {
             if(!hasNeighboringBombs(row, col)) {
                 neighbors(row,col).
                         stream().
+                        filter( t -> !t.isOpen()).
                         forEach(t -> recurChoose(t.row, t.col));
             }
         }
+
     }
 
     /**
@@ -272,14 +273,14 @@ public class MSController {
     private ArrayList<Tile> neighbors(int row, int col) {
         ArrayList<Tile> neighbors = new ArrayList<>();
         for (int r = row - 1; r <= row+1 ; r++) {
-            for (int c = col-1; c <= col+1; c++) {
-                if(r == row && c == col) continue;
-                try{
+            for (int c = col - 1; c <= col + 1; c++) {
+                if (r == row && c == col) continue;
+                try {
                     neighbors.add(tileGrid[r][c]);
-                } catch (ArrayIndexOutOfBoundsException a) {}
+                } catch (ArrayIndexOutOfBoundsException a) {
+                }
             }
         }
-        //System.out.println(neighbors.size());
         return neighbors;
     }
 
