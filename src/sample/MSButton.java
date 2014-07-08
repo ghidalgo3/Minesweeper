@@ -5,10 +5,10 @@ import javafx.scene.paint.Color;
 /**
  * Created by Gustavo on 7/6/14.
  */
-public class MSButton extends AbstractMSButton{
+public class MSButton extends Abstract2DMSButton{
 
 
-    
+
     public MSButton(MSController.Tile observed, MSController controller) {
         super(observed, controller);
         button.setMaxHeight(Double.MAX_VALUE);
@@ -32,6 +32,7 @@ public class MSButton extends AbstractMSButton{
     protected void setOpenStyle() {
         int bombNeighbors = observed.getBombNeighbors();
         if(!(bombNeighbors == 0)) {
+            setClosedStyle();
             switch(bombNeighbors) {
                 case 1: button.setText(""+bombNeighbors); button.textFillProperty().setValue(Color.RED);    break;
                 case 2: button.setText(""+bombNeighbors); button.textFillProperty().setValue(Color.ORANGE); break;
@@ -53,6 +54,8 @@ public class MSButton extends AbstractMSButton{
         button.setText("B");
     }
 
-
-
+    @Override
+    protected void setPressedStyle() {
+        button.setStyle("-fx-background-color: darkblue;");
+    }
 }
